@@ -14,7 +14,18 @@
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#">Tanny Catering Services</a>
-        <nav class="nav-links" aria-label="Primary navigation">
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav id="site-nav" class="nav-links" aria-label="Primary navigation">
           <a href="#about">About</a>
           <a href="#services">Services</a>
           <a href="#gallery">Gallery</a>
@@ -26,7 +37,7 @@
     <main>
       <section class="hero">
         <div class="hero-overlay"></div>
-        <div class="container hero-copy">
+        <div class="container hero-copy reveal">
           <span class="eyebrow">Elegant catering • Crafted with care</span>
           <h1>Beautiful food for unforgettable moments.</h1>
           <p>
@@ -40,7 +51,7 @@
         </div>
       </section>
 
-      <section id="about" class="section about-section">
+      <section id="about" class="section about-section reveal">
         <div class="container section-grid">
           <div>
             <span class="section-label">About us</span>
@@ -58,19 +69,19 @@
             </ul>
           </div>
           <div
-            class="about-image"
+            class="about-image reveal"
             style="background-image: url(&quot;images/IMG_6350.PNG&quot;)"
             aria-label="Catering setup display"
           ></div>
         </div>
       </section>
 
-      <section id="services" class="section services-section">
+      <section id="services" class="section services-section reveal">
         <div class="container">
           <span class="section-label">Services</span>
           <h2>Tailored menus for every celebration.</h2>
           <div class="cards-grid">
-            <article class="service-card">
+            <article class="service-card reveal">
               <h3>Event Catering</h3>
               <p>
                 Complete catering solutions for birthdays, anniversaries, and
@@ -102,21 +113,28 @@
         </div>
       </section>
 
-      <section id="gallery" class="section gallery-section">
+      <section id="gallery" class="section gallery-section reveal">
         <div class="container">
           <span class="section-label">Gallery</span>
           <h2>A glimpse of the experience.</h2>
           <div class="gallery-grid">
-            <img src="images/IMG_6351.PNG" alt="Elegant catering table setup" />
             <img
+              class="reveal"
+              src="images/IMG_6351.PNG"
+              alt="Elegant catering table setup"
+            />
+            <img
+              class="reveal"
               src="images/IMG_6352.PNG"
               alt="Fresh fruit and dessert display"
             />
             <img
+              class="reveal"
               src="images/IMG_6353.PNG"
               alt="Individual plated catering service"
             />
             <img
+              class="reveal"
               src="images/IMG_6354.PNG"
               alt="Stylish event food presentation"
             />
@@ -124,9 +142,9 @@
         </div>
       </section>
 
-      <section id="contact" class="section contact-section">
+      <section id="contact" class="section contact-section reveal">
         <div class="container contact-grid">
-          <div class="contact-details">
+          <div class="contact-details reveal">
             <span class="section-label">Contact</span>
             <h2>Let’s plan something memorable.</h2>
             <p>
@@ -141,7 +159,7 @@
             <p>Serving weddings, corporate events, and private celebrations.</p>
           </div>
 
-          <form class="contact-form">
+          <form class="contact-form reveal">
             <label>
               Name
               <input type="text" name="name" placeholder="Your name" />
@@ -172,5 +190,63 @@
         <p>Crafted for celebrations that matter.</p>
       </div>
     </footer>
+
+    <script>
+      const header = document.querySelector(".site-header");
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navLinks = document.querySelector(".nav-links");
+
+      const closeMenu = () => {
+        if (!header || !menuToggle) return;
+        header.classList.remove("menu-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("menu-open");
+      };
+
+      if (menuToggle && navLinks) {
+        menuToggle.addEventListener("click", () => {
+          const isOpen = header.classList.toggle("menu-open");
+          menuToggle.setAttribute("aria-expanded", String(isOpen));
+          document.body.classList.toggle("menu-open", isOpen);
+        });
+
+        navLinks.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+              closeMenu();
+            }
+          });
+        });
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 768) {
+            closeMenu();
+          }
+        });
+      }
+
+      window.addEventListener("scroll", () => {
+        if (header) {
+          header.classList.toggle("scrolled", window.scrollY > 10);
+        }
+      });
+
+      const revealItems = document.querySelectorAll(".reveal");
+      if (revealItems.length) {
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 },
+        );
+
+        revealItems.forEach((item) => observer.observe(item));
+      }
+    </script>
   </body>
 </html>

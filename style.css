@@ -218,7 +218,7 @@ button {
       rgba(15, 23, 42, 0.62) 0%,
       rgba(15, 23, 42, 0.3) 100%
     ),
-    url("images/IMG_6355.PNG");
+    url("images/temp_image_AB001FF0-9A76-4545-81E7-28F877C0C8ED.jpg");
   background-size: cover;
   background-position: center;
   color: #ffffff;
@@ -580,7 +580,7 @@ button {
 }
 
 .footer-social i {
-  font-size: 1.15rem;
+  font-size: 1.4rem;
 }
 
 .footer-social a:hover,
